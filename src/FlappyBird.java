@@ -53,5 +53,7 @@ public class FlappyBird extends JPanel {
 
     private void draw(Graphics g) {
         g.drawImage(backgroundImage, 0, 0, boardWidth, boardHeight, null);
+        //bird
+        g.drawImage(bird.image, bird.x, bird.y, bird.width, bird.height, null);
     }
 }

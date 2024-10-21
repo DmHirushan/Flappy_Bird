@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class FlappyBird extends JPanel implements ActionListener, KeyListener {
@@ -34,12 +35,35 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    //Pipes
+    int pipeX = boardWidth;
+    int pipeY = 0;
+    int pipeWidth = 64;
+    int pipeHeight = 512;
+
+    class Pipe {
+        int x = pipeX;
+        int y = pipeY;
+        int width = pipeWidth;
+        int height = pipeHeight;
+        Image image;
+        boolean passed = false;
+
+        Pipe (Image image) {
+            this.image = image;
+        }
+    }
+
     //game logic
     Bird bird;
+    int velocityX = -4;
     int velocityY = 0;
     int gravity = 1;
 
+    ArrayList<Pipe> pipes;
+
     Timer gameLoop;
+    Timer placePipeTimer;
 
 
     FlappyBird(){
@@ -56,10 +80,22 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
         //bird
         bird = new Bird(flappyBirdImage);
+        //place pipes timer
+        placePipeTimer = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                placePipes();
+            }
+        });
 
         //game timer
         gameLoop = new Timer(1000/60, this); //1000/60 = 16.6
         gameLoop.start();
+    }
+
+    public void placePipes(){
+        Pipe topPipe = new Pipe(topPipeImage);
+        pipes.add(topPipe);
     }
 
     public void paintComponent(Graphics g){

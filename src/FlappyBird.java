@@ -142,11 +142,22 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         for (int i = 0; i < pipes.size(); i++) {
             Pipe pipe = pipes.get(i);
             pipe.x += velocityX;
+
+            if (collison(bird, pipe)) {
+                gameOver = true;
+            }
         }
 
         if (bird.y > boardHeight) {
             gameOver = true;
         }
+    }
+
+    public boolean collison(Bird a, Pipe b){
+        return a.x < b.x + b.width &&
+                a.x + a.width > b.x &&
+                a.y < b.y + b.height &&
+                a.y + a.height > b.y;
     }
 
     @Override
